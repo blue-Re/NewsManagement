@@ -19,3 +19,6 @@
 .site-layout .site-layout-background {
   background: #fff;
 }
+#root, .ant-layout{
+  height: 100%;
+}

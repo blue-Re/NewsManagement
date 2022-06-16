@@ -4,8 +4,6 @@ import './App.css'
 
 export default function App() {
   return (
-    <div>
-      <RouterIndex></RouterIndex>
-    </div>
+    <RouterIndex></RouterIndex>
   )
 }
