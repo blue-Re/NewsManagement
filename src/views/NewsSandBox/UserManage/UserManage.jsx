@@ -27,19 +27,19 @@ export default function UserManage() {
       filters: [
         ...regionList.map(item => ({
           text: item.title,
-          value: item.value 
+          value: item.value
         })),
         {
           text: "全球",
           value: "全球",
         }
       ],
-      onFilter:(value, item) => {
+      onFilter: (value, item) => {
         if (value === "全球") {
-          return item.region=== ""
+          return item.region === ""
         }
         return item.region === value
-      } 
+      }
     },
     {
       title: "角色名称",
@@ -89,10 +89,22 @@ export default function UserManage() {
       }
     }
   ]
+  const { roleId, region, username } = JSON.parse(localStorage.getItem("token"))
   useEffect(() => {
+    const roleObj = {
+      "1": "superadmin",
+      "2": "admin",
+      "3": "editor"
+    }
     axios.get("http://localhost:5000/users?_expand=role").then(res => {
-      setTableData(res.data)
+      const list = res.data
+      setTableData(roleObj[roleId] === "superadmin" ? list : [
+        ...list.filter(item => item.username === username),
+        ...list.filter(item => item.region === region && roleObj[item.roleId] === "editor")
+      ])
     })
+  }, [roleId, region, username])
+  useEffect(() => {
     axios.get("http://localhost:5000/regions").then(res => {
       setRegionList(res.data)
     })
@@ -203,7 +215,7 @@ export default function UserManage() {
           })
         }}
       >
-        <UserForm ref={updateForm} roleList={roleList} regionList={regionList} isUpdateDisabled={isUpdateDisabled} />
+        <UserForm ref={updateForm} isUpdate={true} roleList={roleList} regionList={regionList} isUpdateDisabled={isUpdateDisabled} />
       </Modal>
     </div>
   )

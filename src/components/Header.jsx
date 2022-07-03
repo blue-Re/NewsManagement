@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Layout, Dropdown, Menu, Avatar } from 'antd';
+import { withRouter } from 'react-router-dom';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -7,25 +8,26 @@ import {
 } from '@ant-design/icons';
 const { Header } = Layout;
 
-export default function NewsHeader() {
+function NewsHeader(props) {
   const [collapsed, setCollapsed] = useState(false)
   const changeCollapsed = () => {
     setCollapsed(!collapsed)
   }
+
+  const loginOut = () => {
+    localStorage.removeItem("token")
+    props.history.replace("/login")
+  }
+
+  const { role: { roleName }, username } = JSON.parse(localStorage.getItem("token"))
+
   const menu = (
-    <Menu
-      items={[
-        {
-          key: '1',
-          label: '超级管理员',
-        },
-        {
-          key: '4',
-          danger: true,
-          label: '退出',
-        },
-      ]}
-    />
+    <Menu>
+      <Menu.Item>
+        {roleName}
+      </Menu.Item>
+      <Menu.Item danger onClick={() => loginOut()}>退出</Menu.Item>
+    </Menu>
   );
 
   return (
@@ -33,7 +35,7 @@ export default function NewsHeader() {
       {collapsed ? <MenuUnfoldOutlined onClick={changeCollapsed} /> : <MenuFoldOutlined onClick={changeCollapsed} />}
 
       <div style={{ float: "right" }}>
-        <span>欢迎admin回来</span>
+        <span>欢迎<span style={{color: 'red'}}>{username}</span>回来</span>
         <Dropdown overlay={menu}>
           <Avatar size="large" icon={<UserOutlined />} />
         </Dropdown>
@@ -41,3 +43,5 @@ export default function NewsHeader() {
     </Header>
   )
 }
+
+export default withRouter(NewsHeader)

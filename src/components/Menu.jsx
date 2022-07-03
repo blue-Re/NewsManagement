@@ -58,8 +58,9 @@ function NewsMenu(props) {
       )
     })
   }
+  const { role: { rights } } = JSON.parse(localStorage.getItem("token"))
   const pagePermission = (menuItem) => {
-    return menuItem.pagepermisson === 1
+    return menuItem.pagepermisson && rights.includes(menuItem.key)
   }
   const goToPath = (path) => {
     props.history.push(path)
