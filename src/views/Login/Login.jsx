@@ -12,7 +12,7 @@ export default function Login(props) {
   const onFinish = (values) => {
     const { username, password } = values
     axios.get(
-      `http://localhost:5000/users?username=${username}&password=${password}&roleState=true&_expand=role`
+      `/users?username=${username}&password=${password}&roleState=true&_expand=role`
     ).then(res => {
       if (res.data.length === 0) {
         message.error("用户名密码不匹配")

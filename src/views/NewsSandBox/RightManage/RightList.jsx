@@ -6,7 +6,7 @@ const { confirm } = Modal
 
 export default function RightList() {
   useEffect(() => {
-    axios.get("http://localhost:5000/rights?_embed=children").then(res => {
+    axios.get("/rights?_embed=children").then(res => {
       const { data } = res
       setTableData(data)
     })
@@ -74,13 +74,13 @@ export default function RightList() {
         // 删除一级菜单
         if (item.grade === 1) {
           setTableData(data)
-          axios.delete(`http://localhost:5000/rights/${item.id}`)
+          axios.delete(`/rights/${item.id}`)
         } else {
           // 删除二级菜单
           const menu = tableData.find(tableItem => tableItem.id === item.rightId)
           menu.children = menu.children.filter(menuItem => menuItem.id !== item.id)
           setTableData([...tableData])
-          axios.delete(`http://localhost:5000/children/${item.id}`)
+          axios.delete(`/children/${item.id}`)
         }
 
       },
@@ -92,12 +92,12 @@ export default function RightList() {
     setTableData([...tableData])
     // 同步一级菜单
     if (item.grade === 1) {
-      axios.patch(`http://localhost:5000/rights/${item.id}`, {
+      axios.patch(`/rights/${item.id}`, {
         pagepermisson: item.pagepermisson
       })
     } else {
       // 同步二级菜单
-      axios.patch(`http://localhost:5000/children/${item.id}`, {
+      axios.patch(`/children/${item.id}`, {
         pagepermisson: item.pagepermisson
       })
     }

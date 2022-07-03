@@ -96,7 +96,7 @@ export default function UserManage() {
       "2": "admin",
       "3": "editor"
     }
-    axios.get("http://localhost:5000/users?_expand=role").then(res => {
+    axios.get("/users?_expand=role").then(res => {
       const list = res.data
       setTableData(roleObj[roleId] === "superadmin" ? list : [
         ...list.filter(item => item.username === username),
@@ -105,10 +105,10 @@ export default function UserManage() {
     })
   }, [roleId, region, username])
   useEffect(() => {
-    axios.get("http://localhost:5000/regions").then(res => {
+    axios.get("/regions").then(res => {
       setRegionList(res.data)
     })
-    axios.get("http://localhost:5000/roles").then(res => {
+    axios.get("/roles").then(res => {
       setRoleList(res.data)
     })
     return () => {
@@ -121,7 +121,7 @@ export default function UserManage() {
       onOk() {
         const data = tableData.filter(tableItem => tableItem.id !== item.id)
         setTableData(data)
-        axios.delete(`http://localhost:5000/users/${item.id}`)
+        axios.delete(`/users/${item.id}`)
       },
       onCancel() { }
     });
@@ -129,7 +129,7 @@ export default function UserManage() {
   const handleChange = (item) => {
     item.roleState = !item.roleState
     setTableData([...tableData])
-    axios.patch(`http://localhost:5000/users/${item.id}`, {
+    axios.patch(`/users/${item.id}`, {
       roleState: item.roleState
     })
   }
@@ -167,7 +167,7 @@ export default function UserManage() {
           addForm.current.validateFields().then(value => {
             setIsAddVisible(false)
             // 先post到后端，生成id，在更行页面
-            axios.post("http://localhost:5000/users", {
+            axios.post("/users", {
               ...value,
               "roleState": true,
               "default": false,
@@ -208,7 +208,7 @@ export default function UserManage() {
               return item
             }))
             setIsUpdateDisabled(!isUpdateDisabled)
-            axios.patch(`http://localhost:5000/users/${current.id}`, value)
+            axios.patch(`/users/${current.id}`, value)
             updateForm.current.resetFields()
           }).catch(err => {
             console.log(err);

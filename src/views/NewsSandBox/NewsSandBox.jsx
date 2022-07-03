@@ -1,14 +1,13 @@
 import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+
+import { useEffect } from 'react'
 import NewHeader from '../../components/Header'
 import NewsMenu from '../../components/Menu'
-import Home from './Home/Home'
-import UserManage from './UserManage/UserManage'
-import RightList from './RightManage/RightList'
-import RoleList from './RightManage/RoleList'
-import NoPermission from './NoPermission/NoPermission'
+
 import './NewsSandBox.css'
 import { Layout } from 'antd';
+import NewsRouter from '../../components/NewsRouter';
+
 const { Content } = Layout
 
 export default function NewsSandBox() {
@@ -27,14 +26,7 @@ export default function NewsSandBox() {
             overflow: 'auto'
           }}
         >
-          <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/user-manage/list" component={UserManage} />
-            <Route path="/right-manage/role/list" component={RoleList} />
-            <Route path="/right-manage/right/list" component={RightList} />
-            <Redirect from='/' to="/home" exact />
-            <Route path="*" component={NoPermission} />
-          </Switch>
+          <NewsRouter/>
         </Content>
       </Layout>
     </Layout>
