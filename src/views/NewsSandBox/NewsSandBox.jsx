@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useEffect } from 'react'
 import NewHeader from '../../components/Header'
 import NewsMenu from '../../components/Menu'
 

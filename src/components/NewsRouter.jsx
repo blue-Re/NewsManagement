@@ -13,6 +13,7 @@ import NoPermission from '../views/NewsSandBox/NoPermission/NoPermission'
 import NewsAdd from '../views/NewsSandBox/NewsManage/NewsAdd'
 import NewsDraft from '../views/NewsSandBox/NewsManage/NewsDraft'
 import NewsCategory from '../views/NewsSandBox/NewsManage/NewsCategory'
+import NewsPreview from '../views/NewsSandBox/NewsManage/NewsPreview'
 
 import Audit from '../views/NewsSandBox/AuditManage/Audit'
 import AuditList from '../views/NewsSandBox/AuditManage/AuditList'
@@ -31,6 +32,7 @@ const NewsRouter = () => {
     "/news-manage/add": NewsAdd,
     "/news-manage/draft": NewsDraft,
     "/news-manage/category": NewsCategory,
+    "/news-manage/preview/:id": NewsPreview,
     "/audit-manage/audit": Audit,
     "/audit-manage/list": AuditList,
     "/publish-manage/unpublished": Unpublished,
@@ -51,7 +53,7 @@ const NewsRouter = () => {
   }, []);
 
   const checkRoute = (item) => {
-    return LocalRouterMap[item.key] && item.pagepermisson
+    return LocalRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
   };
   const { role: { rights } } = JSON.parse(localStorage.getItem("token"))
   const checkUserPermission = (item) => {
