@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, UploadOutlined
 import { Button, Table, Modal } from 'antd'
 const { confirm } = Modal
 
-export default function NewsDraft() {
+export default function NewsDraft(props) {
   const { username } = JSON.parse(localStorage.getItem("token"))
   useEffect(() => {
     axios.get(`/news?author=${username}&auditState=0&_expand=category`).then(res => {
@@ -57,6 +57,9 @@ export default function NewsDraft() {
               type='primary'
               shape='circle'
               icon={<EditOutlined />}
+              onClick={() => {
+                props.history.push(`/news-manage/update/${item.id}`)
+              }}
             >
             </Button>
             <Button

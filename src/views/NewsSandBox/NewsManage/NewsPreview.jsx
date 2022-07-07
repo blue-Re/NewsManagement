@@ -50,8 +50,8 @@ export default function NewsPreview(props) {
           <div
             dangerouslySetInnerHTML={{
               __html: newsInfo.content
-          }}
-            style={{border: '1px solid black', margin: '20px'}}
+            }}
+            style={{ border: '1px solid black', margin: '20px' }}
           >
           </div>
         </div>

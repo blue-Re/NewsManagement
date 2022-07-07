@@ -21,6 +21,7 @@ import AuditList from '../views/NewsSandBox/AuditManage/AuditList'
 import Unpublished from '../views/NewsSandBox/PublishManage/Unpublished'
 import Published from '../views/NewsSandBox/PublishManage/Published'
 import Sunset from '../views/NewsSandBox/PublishManage/Sunset'
+import NewsUpdate from '../views/NewsSandBox/NewsManage/NewsUpdate';
 
 
 const NewsRouter = () => {
@@ -33,6 +34,7 @@ const NewsRouter = () => {
     "/news-manage/draft": NewsDraft,
     "/news-manage/category": NewsCategory,
     "/news-manage/preview/:id": NewsPreview,
+    "/news-manage/update/:id": NewsUpdate,
     "/audit-manage/audit": Audit,
     "/audit-manage/list": AuditList,
     "/publish-manage/unpublished": Unpublished,
