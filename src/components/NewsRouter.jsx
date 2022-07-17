@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom'
 import axios from 'axios';
+import { connect } from 'react-redux'
 
 
 import Home from '../views/NewsSandBox/Home/Home'
@@ -22,9 +23,10 @@ import Unpublished from '../views/NewsSandBox/PublishManage/Unpublished'
 import Published from '../views/NewsSandBox/PublishManage/Published'
 import Sunset from '../views/NewsSandBox/PublishManage/Sunset'
 import NewsUpdate from '../views/NewsSandBox/NewsManage/NewsUpdate';
+import { Spin } from 'antd';
 
 
-const NewsRouter = () => {
+const NewsRouter = (props) => {
   const LocalRouterMap = {
     "/home": Home,
     "/user-manage/list": UserManage,
@@ -65,28 +67,43 @@ const NewsRouter = () => {
 
 
   return (
-    <Switch>
-      {
-        BackRouterList.map(item => {
-          if (checkRoute(item) && checkUserPermission(item)) {
-            return (
-              <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
-            )
-          }
-          return null
-        })
-      }
-      {/* <Route path="/home" component={Home} />
+    <Spin spinning={props.isLoading}>
+      <Switch>
+        {
+          BackRouterList.map(item => {
+            if (checkRoute(item) && checkUserPermission(item)) {
+              return (
+                <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact />
+              )
+            }
+            return null
+          })
+        }
+        {/* <Route path="/home" component={Home} />
       <Route path="/user-manage/list" component={UserManage} />
       <Route path="/right-manage/role/list" component={RoleList} />
       <Route path="/right-manage/right/list" component={RightList} /> */}
-      <Redirect from='/' to="/home" exact />
-      {
-        BackRouterList.length && <Route path="*" component={NoPermission} />
-      }
+        <Redirect from='/' to="/home" exact />
+        {
+          BackRouterList.length && <Route path="*" component={NoPermission} />
+        }
 
-    </Switch>
+      </Switch>
+    </Spin>
   );
 }
 
-export default NewsRouter;
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.loadingReducers.isLoading
+  }
+}
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewsRouter);

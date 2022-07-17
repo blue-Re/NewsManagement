@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout, Dropdown, Menu, Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
 import {
@@ -6,12 +6,14 @@ import {
   MenuUnfoldOutlined,
   UserOutlined
 } from '@ant-design/icons';
+import { connect } from 'react-redux'
+
 const { Header } = Layout;
 
 function NewsHeader(props) {
-  const [collapsed, setCollapsed] = useState(false)
   const changeCollapsed = () => {
-    setCollapsed(!collapsed)
+    // setCollapsed(!collapsed)
+    props.changeCollapsed()
   }
 
   const loginOut = () => {
@@ -32,7 +34,7 @@ function NewsHeader(props) {
 
   return (
     <Header className="site-layout-background" style={{ padding: '0 16px' }}>
-      {collapsed ? <MenuUnfoldOutlined onClick={changeCollapsed} /> : <MenuFoldOutlined onClick={changeCollapsed} />}
+      {props.isCollapsed ? <MenuUnfoldOutlined onClick={changeCollapsed} /> : <MenuFoldOutlined onClick={changeCollapsed} />}
 
       <div style={{ float: "right" }}>
         <span>欢迎<span style={{color: 'red'}}>{username}</span>回来</span>
@@ -44,4 +46,19 @@ function NewsHeader(props) {
   )
 }
 
-export default withRouter(NewsHeader)
+const mapStateToProps = (state) => {
+  return {
+    isCollapsed: state.collapsedReducers.isCollapsed
+  }
+}
+
+const mapDispatchToProps = {
+  changeCollapsed() {
+    return {
+      type: 'changeCollapsed',
+      payload: {}
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NewsHeader))

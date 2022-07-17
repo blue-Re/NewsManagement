@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
 import './index.css'
 
 const { Sider } = Layout
@@ -68,7 +69,7 @@ function NewsMenu(props) {
   const { pathname } = props.location
   const openKeys = pathname.split("/")[1]
   return (
-    <Sider style={{ overflowY: 'auto' }} trigger={null} collapsible collapsed={false}>
+    <Sider style={{ overflowY: 'auto' }} trigger={null} collapsible collapsed={props.isCollapsed}>
       <div className="logo">全球新闻发布管理系统</div>
       <Menu
         theme="dark" 
@@ -82,4 +83,14 @@ function NewsMenu(props) {
   )
 }
 
-export default withRouter(NewsMenu)
+const mapStateToProps = (state) => {
+  return {
+    isCollapsed: state.collapsedReducers.isCollapsed
+  }
+};
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps,mapDispatchToProps )(withRouter(NewsMenu))

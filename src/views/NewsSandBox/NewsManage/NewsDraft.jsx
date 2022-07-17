@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Table, Modal } from 'antd'
+import { Button, Table, Modal, notification } from 'antd'
 const { confirm } = Modal
 
 export default function NewsDraft(props) {
@@ -66,6 +66,7 @@ export default function NewsDraft(props) {
               type='primary'
               shape='circle'
               icon={<UploadOutlined />}
+              onClick= { () => handleCheck(item.id)}
             >
             </Button>
           </div>
@@ -83,6 +84,18 @@ export default function NewsDraft(props) {
         axios.delete(`/news/${item.id}`)
       }
     });
+  }
+  const handleCheck = (id) => {
+    axios.patch(`/news/${id}`, {
+      auditState: 1,
+    }).then(res => {
+      props.history.push('/audit-manage/list')
+      notification.info({
+        message: '通知',
+        description: '你可以到审核列表查看您的新闻',
+        placement: 'bottomRight'
+      })
+    })
   }
   return (
     <Table
